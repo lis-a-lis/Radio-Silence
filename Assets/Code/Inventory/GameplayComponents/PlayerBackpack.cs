@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using RadioSilence.InventorySystem.Core;
 using RadioSilence.InventorySystem.Data;
-using RadioSilence.UI.InventoryUI;
+using RadioSilence.UI.InventoryUI.Mediator;
 
 namespace RadioSilence.InventorySystem.GameplayComponents
 {
@@ -15,27 +15,42 @@ namespace RadioSilence.InventorySystem.GameplayComponents
 
         public int ItemsCount => _inventory.GetItems().Length;
 
+        public float Mass => _inventory.Mass;
+
         public void SetMediator(IInventoryUIMediator mediator)
         {
             _mediator = mediator;
         }
 
+        public bool TryGetItemAtIndex(out ReadOnlyItemData item, int index)
+        {
+            item = new ReadOnlyItemData();
+
+            if (index < ItemsCount)
+            {
+                item = ItemDataLoader.Instance.LoadReadOnlyItemData(_inventory.GetItems()[index]);
+                return true;
+            }
+
+            return false;
+        }
+
         public void DropItem(string itemID, int itemIndex, int amount)
         {
             _inventory.RemoveItems(itemID, itemIndex, amount);
-            _mediator.NotifyInventoryChanged(ItemsDataLoader.Instance.LoadReadOnlyItemsDataArray(_inventory.GetItems()));
-        }
-
-        private void Start()
-        {
-            ItemData data = ItemsDataLoader.Instance.LoadItemData("MeetCan");
-            _inventory.AddItems(data.ItemID, 30, data.IsStackable, data.StackSize, data.Mass);
-            _mediator.NotifyInventoryChanged(ItemsDataLoader.Instance.LoadReadOnlyItemsDataArray(_inventory.GetItems()));
+            InstantiateDroppedItem(itemID);
+            _mediator.NotifyInventoryChanged(ItemDataLoader.Instance.LoadReadOnlyItemsDataArray(_inventory.GetItems()));
         }
 
         private void Update()
         {
             PickUpItem();
+        }
+
+        private void InstantiateDroppedItem(string itemID)
+        {
+            Vector3 itemPosition = transform.position + Vector3.up + transform.forward / 2;
+            Instantiate(ItemDataLoader.Instance.LoadItemPrefab(itemID), itemPosition, Quaternion.identity);
         }
 
         private void PickUpItem()
@@ -52,7 +67,7 @@ namespace RadioSilence.InventorySystem.GameplayComponents
                     Destroy(hit.collider.gameObject);
 
                     _inventory.AddItems(data.ItemID, 1, data.IsStackable, data.StackSize, data.Mass);
-                    _mediator.NotifyInventoryChanged(ItemsDataLoader.Instance.LoadReadOnlyItemsDataArray(_inventory.GetItems()));
+                    _mediator.NotifyInventoryChanged(ItemDataLoader.Instance.LoadReadOnlyItemsDataArray(_inventory.GetItems()));
                 }
             }
         }

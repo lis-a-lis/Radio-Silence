@@ -19,5 +19,5 @@ MonoBehaviour:
   _mass: 0.052
   _isStackable: 1
   _stackSize: 8
-  _actions: 0
+  _actions: 3
   _icon: {fileID: 21300000, guid: c4b111e9fdcb8454dbb5515a9a7d3be4, type: 3}

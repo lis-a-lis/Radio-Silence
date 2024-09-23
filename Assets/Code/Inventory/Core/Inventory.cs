@@ -4,24 +4,6 @@ using UnityEngine;
 
 namespace RadioSilence.InventorySystem.Core
 {
-    public readonly struct ReadOnlyItem
-    {
-        public readonly string itemID;
-        public readonly int amount;
-        public readonly bool isStackable;
-        public readonly int stackSize;
-        public readonly float mass;
-
-        public ReadOnlyItem(string itemID, int amount, bool isStackable, int stackSize, float mass)
-        {
-            this.itemID = itemID;
-            this.amount = amount;
-            this.isStackable = isStackable;
-            this.stackSize = stackSize;
-            this.mass = mass;
-        }
-    }
-
     public class Inventory
     {
         private readonly List<InventoryItem> _items = new List<InventoryItem>();
@@ -61,12 +43,9 @@ namespace RadioSilence.InventorySystem.Core
         {
             InventoryItem[] availableStacks = GetAvailableStacks(itemID);
             int addableAmount = stackSize;
-            Debug.Log("ADD_AMOUNT - " + amount);
-            Debug.Log("AVAILABLE_STACK - " + availableStacks);
-            Debug.Log("AVAILABLE_STACK len - " + availableStacks.Length);
+
             if (availableStacks.Length > 0)
             {
-                Debug.Log("ADDING TO AVAILABLE STACK");
                 foreach (InventoryItem item in availableStacks)
                 {
                     addableAmount = Mathf.Clamp(amount, 0, stackSize);
@@ -83,8 +62,6 @@ namespace RadioSilence.InventorySystem.Core
                 addableAmount = Mathf.Clamp(amount, 0, stackSize);
                 amount -= addableAmount;
                 AddItem(itemID, addableAmount, isStackable, stackSize, mass);
-
-                Debug.Log($"ADDDDDD {addableAmount} { amount}");
             }
         }
 
@@ -121,7 +98,7 @@ namespace RadioSilence.InventorySystem.Core
             float mass = 0f;
 
             foreach (InventoryItem item in _items)
-                mass += item.Mass;
+                mass += item.Mass * item.Amount;
 
             return mass;
         }

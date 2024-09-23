@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RadioSilence.InventorySystem.Core
+﻿namespace RadioSilence.InventorySystem.Core
 {
     public class InventoryItem : IReadOnlyInventoryItem
     {
