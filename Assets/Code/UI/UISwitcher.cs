@@ -2,9 +2,14 @@ using UnityEngine;
 
 namespace RadioSilence.UI
 {
-    public class UISwitch : MonoBehaviour
+    public class UISwitcher : MonoBehaviour
     {
-        [SerializeField] private RectTransform _playerInventoryUI;
+        private GameObject _playerInventoryUI;
+
+        public void InitializeUISwitcher(GameObject playerInventory)
+        {
+            _playerInventoryUI = playerInventory;
+        }
 
         private void Awake()
         {
@@ -15,9 +20,9 @@ namespace RadioSilence.UI
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                _playerInventoryUI.gameObject.SetActive(!_playerInventoryUI.gameObject.activeSelf);
+                _playerInventoryUI.SetActive(!_playerInventoryUI.activeSelf);
 
-                if (_playerInventoryUI.gameObject.activeSelf == false)
+                if (_playerInventoryUI.activeSelf == false)
                     HideCursor();
                 else
                     ShowCursor();

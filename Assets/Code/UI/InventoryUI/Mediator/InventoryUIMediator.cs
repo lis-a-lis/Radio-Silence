@@ -8,18 +8,19 @@ namespace RadioSilence.UI.InventoryUI.Mediator
 {
     public class InventoryUIMediator : MonoBehaviour, IInventoryUIMediator
     {
-        [SerializeField] private PlayerBackpack _inventory;
         [SerializeField] private InventoryInfo _info;
         [SerializeField] private InventoryGrid _grid;
         [SerializeField] private InventoryGridControl _gridControl;
         [SerializeField] private ItemActionsControl _actionsControl;
-        [SerializeField] private InventoryStateView _inventoryState;
+        [SerializeField] private InventoryItemsMassView _inventoryState;
 
+        private PlayerBackpack _inventory;
         private int _selectedItemIndex;
         private ReadOnlyItemData _selectedItemData;
 
-        private void Awake()
+        public void InitializeMediator(PlayerBackpack playerInventory)
         {
+            _inventory = playerInventory;
             _info.SetMediator(this);
             _grid.SetMediator(this);
             _inventory.SetMediator(this);
@@ -53,7 +54,7 @@ namespace RadioSilence.UI.InventoryUI.Mediator
         {
             _grid.UpdateGridData(data);
             _grid.UpdatePage();
-            _inventoryState.SetMass(_inventory.Mass);
+            _inventoryState.SetData(data);
         }
 
         private void UpdateInfo()
@@ -89,6 +90,7 @@ namespace RadioSilence.UI.InventoryUI.Mediator
                     _selectedItemData.description,
                     newAmount,
                     _selectedItemData.stackSize,
+                    _selectedItemData.mass,
                     _selectedItemData.icon,
                     _selectedItemData.actions
                 );

@@ -23,14 +23,4 @@ namespace RadioSilence
             transform.localRotation = Quaternion.Euler(_horizontalRotation, 0, 0);
         }
     }
-
-    public class Bootstrapper : MonoBehaviour
-    {
-
-
-        private void Awake()
-        {
-            DontDestroyOnLoad(this);
-        }
-    }
 }

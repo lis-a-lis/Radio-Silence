@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace RadioSilence.InventorySystem.Core
 {
@@ -8,24 +8,18 @@ namespace RadioSilence.InventorySystem.Core
     {
         private readonly List<InventoryItem> _items = new List<InventoryItem>();
 
-        public event Action OnInventoryChanged;
-
-        public float Mass => CalculateItemsMass();
-
-        public void AddItems(string itemID, int amount, bool isStackable, int stackSize, float mass)
+        public void AddItems(string itemID, int amount, bool isStackable, int stackSize)
         {
             if (amount <= 0)
                 throw new ArgumentOutOfRangeException();
 
             if (isStackable)
-                AddItemsToStacks(itemID, amount, isStackable, stackSize, mass);
+                AddItemsToStacks(itemID, amount, isStackable, stackSize);
             else
             {
                 for (int i = 0; i < amount; i++)
-                    AddItem(itemID, 1, isStackable, stackSize, mass);
+                    AddInventoryItem(itemID, 1, isStackable, stackSize);
             }
-
-            OnInventoryChanged?.Invoke();
         }
 
         public void RemoveItems(string itemID, int itemIndex, int amount)
@@ -35,11 +29,9 @@ namespace RadioSilence.InventorySystem.Core
 
             if (_items[itemIndex].Amount == 0)
                 _items.RemoveAt(itemIndex);
-
-            OnInventoryChanged?.Invoke();
         }
 
-        private void AddItemsToStacks(string itemID, int amount, bool isStackable, int stackSize, float mass)
+        private void AddItemsToStacks(string itemID, int amount, bool isStackable, int stackSize)
         {
             InventoryItem[] availableStacks = GetAvailableStacks(itemID);
             int addableAmount = stackSize;
@@ -61,7 +53,7 @@ namespace RadioSilence.InventorySystem.Core
             {
                 addableAmount = Mathf.Clamp(amount, 0, stackSize);
                 amount -= addableAmount;
-                AddItem(itemID, addableAmount, isStackable, stackSize, mass);
+                AddInventoryItem(itemID, addableAmount, isStackable, stackSize);
             }
         }
 
@@ -78,9 +70,9 @@ namespace RadioSilence.InventorySystem.Core
             return stacks.ToArray();
         }
 
-        private void AddItem(string itemID, int amount, bool isStackable, int stackSize, float mass)
+        private void AddInventoryItem(string itemID, int amount, bool isStackable, int stackSize)
         {
-            _items.Add(new InventoryItem(itemID, amount, isStackable, stackSize, mass));
+            _items.Add(new InventoryItem(itemID, amount, isStackable, stackSize));
         }
 
         public IReadOnlyInventoryItem[] GetItems()
@@ -91,16 +83,6 @@ namespace RadioSilence.InventorySystem.Core
                 readOnlySlots[i] = _items[i];
 
             return readOnlySlots;
-        }
-
-        private float CalculateItemsMass()
-        {
-            float mass = 0f;
-
-            foreach (InventoryItem item in _items)
-                mass += item.Mass * item.Amount;
-
-            return mass;
         }
     }
 }

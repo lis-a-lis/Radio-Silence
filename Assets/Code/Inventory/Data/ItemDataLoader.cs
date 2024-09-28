@@ -62,6 +62,7 @@ namespace RadioSilence.InventorySystem.Data
                 currentItemData.Description,
                 item.Amount,
                 currentItemData.StackSize,
+                currentItemData.Mass,
                 currentItemData.Icon,
                 currentItemData.Actions
             );

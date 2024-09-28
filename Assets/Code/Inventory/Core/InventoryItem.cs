@@ -9,28 +9,21 @@
         public int Amount
         {
             get => _amount;
-            set
-            {
-                _amount = value;
-            }
+            set => _amount = value;
         }
-
 
         public bool IsEmpty => Amount == 0;
 
         public bool IsStackable { get; }
 
-        public float Mass { get; }
-
         public int StackSize { get; }
 
-        public InventoryItem(string itemID, int amount, bool isStackable, int stackSize, float mass)
+        public InventoryItem(string itemID, int amount, bool isStackable, int stackSize)
         {
             ItemID = itemID;
             Amount = amount;
             IsStackable = isStackable;
             StackSize = stackSize;
-            Mass = mass;
         }
     }
 }

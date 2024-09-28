@@ -10,12 +10,10 @@ namespace RadioSilence.InventorySystem.GameplayComponents
         [SerializeField] private Transform _playerHead;
         [SerializeField] private float _maxItemPickUpDistance = 1;
 
-        private Inventory _inventory = new Inventory();
         private IInventoryUIMediator _mediator;
+        private Inventory _inventory = new Inventory();
 
         public int ItemsCount => _inventory.GetItems().Length;
-
-        public float Mass => _inventory.Mass;
 
         public void SetMediator(IInventoryUIMediator mediator)
         {
@@ -55,18 +53,13 @@ namespace RadioSilence.InventorySystem.GameplayComponents
 
         private void PickUpItem()
         {
-            RaycastHit hit;
-
-            if (Physics.Raycast(_playerHead.position, _playerHead.forward, out hit, _maxItemPickUpDistance))
+            if (Physics.Raycast(_playerHead.position, _playerHead.forward, out RaycastHit hit, _maxItemPickUpDistance))
             {
                 if (hit.collider.gameObject.TryGetComponent<Item>(out Item item) && Input.GetMouseButtonDown(0))
                 {
                     ItemData data = item.Data;
-                    Debug.Log(data == null);
-                    Debug.Log(_inventory == null);
                     Destroy(hit.collider.gameObject);
-
-                    _inventory.AddItems(data.ItemID, 1, data.IsStackable, data.StackSize, data.Mass);
+                    _inventory.AddItems(data.ItemID, 1, data.IsStackable, data.StackSize);
                     _mediator.NotifyInventoryChanged(ItemDataLoader.Instance.LoadReadOnlyItemsDataArray(_inventory.GetItems()));
                 }
             }
