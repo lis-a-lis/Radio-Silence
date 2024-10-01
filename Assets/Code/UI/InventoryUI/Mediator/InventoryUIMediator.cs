@@ -40,6 +40,10 @@ namespace RadioSilence.UI.InventoryUI.Mediator
                 _inventory.DropItem(_selectedItemData.id, _selectedItemIndex, 1);
                 UpdateInfo();
             }
+            else if (actions == ActionsWithItem.Use)
+            {
+                _inventory.UseItem(_selectedItemData.id, _selectedItemIndex);
+            }
         }
 
         public void NotifyItemViewClicked(ReadOnlyItemData data, int clickedItemIndex)

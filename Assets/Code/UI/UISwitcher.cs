@@ -1,3 +1,4 @@
+using RadioSilence.Services.InputServices;
 using UnityEngine;
 
 namespace RadioSilence.UI
@@ -5,10 +6,16 @@ namespace RadioSilence.UI
     public class UISwitcher : MonoBehaviour
     {
         private GameObject _playerInventoryUI;
+        private IInputService _input;
 
-        public void InitializeUISwitcher(GameObject playerInventory)
+        public void Initialize(GameObject playerInventory)
         {
             _playerInventoryUI = playerInventory;
+        }
+
+        public void Inject(IInputService input)
+        {
+            _input = input;
         }
 
         private void Awake()
@@ -18,7 +25,7 @@ namespace RadioSilence.UI
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (_input.Inventory)
             {
                 _playerInventoryUI.SetActive(!_playerInventoryUI.activeSelf);
 

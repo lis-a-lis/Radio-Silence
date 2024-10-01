@@ -58,10 +58,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -1643635292038470927, guid: ed0df6b6cfb8b1543baa52bc65ea21ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -36451006856430675, guid: ed0df6b6cfb8b1543baa52bc65ea21ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ed0df6b6cfb8b1543baa52bc65ea21ad,
         type: 3}
       propertyPath: m_Name
       value: Rifle
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ed0df6b6cfb8b1543baa52bc65ea21ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5299811010861437961, guid: ed0df6b6cfb8b1543baa52bc65ea21ad,
         type: 3}
@@ -134,10 +149,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed0df6b6cfb8b1543baa52bc65ea21ad,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3599686391125766535}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed0df6b6cfb8b1543baa52bc65ea21ad,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1183988444840272967}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ed0df6b6cfb8b1543baa52bc65ea21ad,
         type: 3}
@@ -171,27 +182,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.07192159, y: 0.2155002, z: 1.1326213}
   m_Center: {x: 0, y: -0.03671865, z: 0.07589772}
---- !u!65 &3599686391125766535
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 685280752038140221}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.5, y: 0.4410856, z: 1.1346614}
-  m_Center: {x: 0, y: -0.02524902, z: 0.06733072}
 --- !u!114 &1183988444840272967
 MonoBehaviour:
   m_ObjectHideFlags: 0

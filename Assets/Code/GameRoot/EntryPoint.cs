@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using RadioSilence.InventorySystem.GameplayComponents;
+using RadioSilence.Services.InputServices;
+using RadioSilence.UI;
 
 namespace RadioSilence.GameRoot
 {
@@ -75,6 +78,7 @@ namespace RadioSilence.GameRoot
         private void InitializeGameplayEntryPoint()
         {
             GameplayEntryPoint gameplayEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
+            
             gameplayEntryPoint.Run(_uIRoot.UICanvasTransform);
         }
 

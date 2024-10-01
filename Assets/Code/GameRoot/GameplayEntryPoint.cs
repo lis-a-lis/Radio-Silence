@@ -1,4 +1,5 @@
 ﻿using RadioSilence.InventorySystem.GameplayComponents;
+using RadioSilence.Services.InputServices;
 using RadioSilence.UI;
 using RadioSilence.UI.InventoryUI.Mediator;
 using UnityEngine;
@@ -19,6 +20,12 @@ namespace RadioSilence.GameRoot
             Debug.Log("Game scene loaded");
 
             InitializeGameplayUI(canvasTransform);
+
+            PlayerBackpack inventory = Object.FindFirstObjectByType<PlayerBackpack>();
+            UISwitcher switcher = Object.FindFirstObjectByType<UISwitcher>();
+            var i = new KeyboardInputService();
+            inventory.Inject(i);
+            switcher.Inject(i);
         }
 
         private void InitializeGameplayUI(Transform parent)
@@ -31,7 +38,7 @@ namespace RadioSilence.GameRoot
         private void InitializeUISwitcher(Transform parent, InventoryUIMediator inventoryUI)
         {
             _uiSwitcher = parent.gameObject.AddComponent<UISwitcher>();
-            _uiSwitcher.InitializeUISwitcher(inventoryUI.gameObject);
+            _uiSwitcher.Initialize(inventoryUI.gameObject);
         }
 
         private void InitializePlayerInventoryUI(Transform parent)

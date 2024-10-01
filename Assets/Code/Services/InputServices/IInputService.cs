@@ -4,7 +4,7 @@ namespace RadioSilence.Services.InputServices
 {
     public interface IInputService
     {
-        bool IsInUI { get; }
+        bool IsInGame { get; }
         bool Fire { get; }
         bool Reload { get; }
         bool Interact { get; }

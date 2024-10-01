@@ -1,23 +1,34 @@
 ﻿using UnityEngine;
 using RadioSilence.InventorySystem.Core;
 using RadioSilence.InventorySystem.Data;
+using RadioSilence.Services.InputServices;
 using RadioSilence.UI.InventoryUI.Mediator;
+using System;
+using static UnityEditor.Progress;
 
 namespace RadioSilence.InventorySystem.GameplayComponents
 {
     public class PlayerBackpack : MonoBehaviour, IInventoryUIMediatorComponent
     {
         [SerializeField] private Transform _playerHead;
+        [SerializeField] private LayerMask _itemLayerMask;
         [SerializeField] private float _maxItemPickUpDistance = 1;
 
-        private IInventoryUIMediator _mediator;
         private Inventory _inventory = new Inventory();
+        private IInventoryUIMediator _mediator;
+        private IInputService _input;
+        private CharacterStatsData _stats;
 
         public int ItemsCount => _inventory.GetItems().Length;
 
         public void SetMediator(IInventoryUIMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        public void Inject(IInputService input)
+        {
+            _input = input;
         }
 
         public bool TryGetItemAtIndex(out ReadOnlyItemData item, int index)
@@ -40,9 +51,23 @@ namespace RadioSilence.InventorySystem.GameplayComponents
             _mediator.NotifyInventoryChanged(ItemDataLoader.Instance.LoadReadOnlyItemsDataArray(_inventory.GetItems()));
         }
 
+        private void Awake()
+        {
+            _stats = new CharacterStatsData();
+        }
+
         private void Update()
         {
-            PickUpItem();
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (Physics.Raycast(_playerHead.position, _playerHead.forward, out RaycastHit hit, _maxItemPickUpDistance, _itemLayerMask))
+                {
+                    GameObject itemObject = hit.collider.gameObject;
+                    Item item = itemObject.GetComponent<Item>();
+                    AddItemToInventory(item);
+                    Destroy(itemObject);
+                }
+            }
         }
 
         private void InstantiateDroppedItem(string itemID)
@@ -53,16 +78,40 @@ namespace RadioSilence.InventorySystem.GameplayComponents
 
         private void PickUpItem()
         {
-            if (Physics.Raycast(_playerHead.position, _playerHead.forward, out RaycastHit hit, _maxItemPickUpDistance))
+            if (TryGetItemObject(out GameObject itemObject))
             {
-                if (hit.collider.gameObject.TryGetComponent<Item>(out Item item) && Input.GetMouseButtonDown(0))
+                if (itemObject.TryGetComponent<Item>(out Item item))
                 {
-                    ItemData data = item.Data;
-                    Destroy(hit.collider.gameObject);
-                    _inventory.AddItems(data.ItemID, 1, data.IsStackable, data.StackSize);
-                    _mediator.NotifyInventoryChanged(ItemDataLoader.Instance.LoadReadOnlyItemsDataArray(_inventory.GetItems()));
+                    AddItemToInventory(item);
+                    Destroy(itemObject);
                 }
             }
+        }
+
+        private bool TryGetItemObject(out GameObject itemObject)
+        {
+            bool result = Physics.Raycast(_playerHead.position, _playerHead.forward, out RaycastHit hit, _maxItemPickUpDistance, _itemLayerMask);
+
+            itemObject = result ? hit.collider.gameObject : null;
+
+            return result;
+        }
+
+        private void AddItemToInventory(Item item)
+        {
+            ItemData data = item.Data;
+            _inventory.AddItems(data.ItemID, 1, data.IsStackable, data.StackSize);
+            _mediator.NotifyInventoryChanged(ItemDataLoader.Instance.LoadReadOnlyItemsDataArray(_inventory.GetItems()));
+        }
+
+        public void UseItem(string id, int selectedItemIndex)
+        {
+            var item = ItemDataLoader.Instance.LoadItemPrefab(id);
+
+            IUsableItem usableItem = (IUsableItem)item.GetComponent<Item>();
+
+            _inventory.RemoveItems(id, selectedItemIndex, usableItem.Use(_stats).usedAmount);
+            ;
         }
     }
 }
