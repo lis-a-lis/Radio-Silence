@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71cb61fd37f08784ca216a101968b63b, type: 3}
+  m_Name: GP5
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 1c75de872bd0a994abfbf7cb90cccaef, type: 3}
+  _name: gp5
+  _description: 
+  _mass: 0.35
+  _strength: 2000
+  _size: {x: 2, y: 2}
+  _isStackable: 0
+  _stackSize: 1

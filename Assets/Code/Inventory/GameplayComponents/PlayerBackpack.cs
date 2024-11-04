@@ -3,8 +3,6 @@ using RadioSilence.InventorySystem.Core;
 using RadioSilence.InventorySystem.Data;
 using RadioSilence.Services.InputServices;
 using RadioSilence.UI.InventoryUI.Mediator;
-using System;
-using static UnityEditor.Progress;
 
 namespace RadioSilence.InventorySystem.GameplayComponents
 {

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71cb61fd37f08784ca216a101968b63b, type: 3}
+  m_Name: Backpack
+  m_EditorClassIdentifier: 
+  _icon: {fileID: 21300000, guid: 1f0cca4cbe6762141ac3fc834b24121c, type: 3}
+  _name: "\u0420\u044E\u043A\u0437\u0430\u043A"
+  _description: "\u0445\u0443\u0435\u0442\u0430"
+  _mass: 2
+  _strength: 10000
+  _size: {x: 4, y: 4}
+  _isStackable: 0
+  _stackSize: 1

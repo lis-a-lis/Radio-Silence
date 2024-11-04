@@ -34,6 +34,7 @@ namespace RadioSilence.GameRoot
         {
             UIRootView uiRootPrefab = Resources.Load<UIRootView>(UIROOT_PREFAB_PATH);
             _uIRoot = Object.Instantiate(uiRootPrefab);
+            _uIRoot.gameObject.SetActive(false);
             Object.DontDestroyOnLoad(_uIRoot.gameObject);
         }
 
